@@ -21,9 +21,9 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-amber-200 px-4 md:px-8 py-4 shadow-md sticky top-0 left-0 z-50 w-full ">
+        <nav className="bg-amber-300 px-4 md:px-8 py-4 shadow-md sticky top-0 left-0 z-50 w-full ">
             <div className="flex justify-between items-center ">
-                
+
                 {/* Logo */}
                 <h1 className="text-xl font-bold">
                     📝AI Resume Builder
@@ -31,11 +31,10 @@ export default function Navbar() {
 
                 {/* Desktop Menu */}
                 <ul className="hidden md:flex gap-8 font-medium">
-                    <li className="cursor-pointer hover:text-blue-600">Home</li>
-                    <li className="cursor-pointer hover:text-blue-600">Features</li>
-                    <li className="cursor-pointer hover:text-blue-600">Templates</li>
-                    <li className="cursor-pointer hover:text-blue-600">Pricing</li>
-                    <li className="cursor-pointer hover:text-blue-600">Blog</li>
+                    <a href="#home"><li className="cursor-pointer hover:text-blue-600">Home</li></a>
+                    <a href="#feature"><li className="cursor-pointer hover:text-blue-600">Features</li></a>
+                    <a href="#template"><li className="cursor-pointer hover:text-blue-600">Templates</li></a>
+                    <a href="#blog"><li className="cursor-pointer hover:text-blue-600">Blog</li></a>
                 </ul>
 
                 {/* Desktop Auth */}
@@ -74,13 +73,12 @@ export default function Navbar() {
             {/* Mobile Menu */}
             {menuOpen && (
                 <div className="md:hidden mt-4 flex flex-col gap-4 bg-white p-4 rounded-lg shadow-lg">
-                    
+
                     <ul className="flex flex-col gap-4 font-medium">
-                        <li className="cursor-pointer">Home</li>
-                        <li className="cursor-pointer">Features</li>
-                        <li className="cursor-pointer">Templates</li>
-                        <li className="cursor-pointer">Pricing</li>
-                        <li className="cursor-pointer">Blog</li>
+                        <a href="#home"><li className="cursor-pointer">Home</li></a>
+                        <a href="#feature"> <li className="cursor-pointer">Features</li></a>
+                        <a href="#template"> <li className="cursor-pointer">Templates</li></a>
+                        <a href="#blog"><li className="cursor-pointer">Blog</li></a>
                     </ul>
 
                     <div className="border-t pt-4">

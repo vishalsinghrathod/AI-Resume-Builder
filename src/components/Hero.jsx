@@ -1,8 +1,9 @@
 "use client";
 
+
 export default function Hero() {
     return (
-        <section className="px-6 py-16 bg-purple-100 from-white to-gray-100">
+        <section id="home" className="px-6 py-16 bg-purple-100 from-white to-gray-100">
             <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
                 {/* LEFT CONTENT */}
@@ -26,13 +27,17 @@ export default function Hero() {
 
                     {/* Buttons */}
                     <div className="flex gap-4 mt-6">
-                        <button className="bg-purple-600 text-white px-6 py-3 rounded-lg shadow hover:bg-purple-700">
-                            Create My Resume →
-                        </button>
+                        <a href="#createResume">
+                            <button className="bg-purple-600 text-white px-6 py-3 rounded-lg shadow hover:bg-purple-700 cursor-pointer">
+                                Create My Resume →
+                            </button>
+                        </a>
 
-                        <button className="border px-6 py-3 rounded-lg hover:bg-gray-100">
-                            View Templates
-                        </button>
+                        <a href="#template">
+                            <button className="border px-6 py-3 rounded-lg hover:bg-gray-100 cursor-pointer">
+                                View Templates
+                            </button>
+                        </a>
                     </div>
 
                     {/* Users + Rating */}
