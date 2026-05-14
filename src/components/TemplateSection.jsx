@@ -40,13 +40,13 @@ export default function TemplateSection({
         />
 
         <Creative
-          isSelected={selectedTemplate === "Creative"}
-          onSelect={() => setSelectedTemplate("Creative")}
+          isSelected={selectedTemplate === "creative"}
+          onSelect={() => setSelectedTemplate("creative")}
         />
 
         <Professional
-          isSelected={selectedTemplate === "Professional"}
-          onSelect={() => setSelectedTemplate("Professional")}
+          isSelected={selectedTemplate === "professional"}
+          onSelect={() => setSelectedTemplate("professional")}
         />
 
       </div>

@@ -1,269 +1,398 @@
 "use client";
 
-export default function ClassicPreview() {
+import jsPDF from "jspdf";
+import { toPng } from "html-to-image";
+import { useRef } from "react";
+
+export default function ClassicPreview({ data = {} }) {
+
+    const resumeRef = useRef();
+
+    const handleDownloadPDF = async () => {
+
+        const input = resumeRef.current;
+
+        if (!input) return;
+
+        try {
+
+            const dataUrl = await toPng(input, {
+                cacheBust: true,
+                pixelRatio: 2,
+                backgroundColor: "#ffffff",
+            });
+
+            const img = new Image();
+
+            img.src = dataUrl;
+
+            await new Promise((resolve) => {
+                img.onload = resolve;
+            });
+
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4",
+            });
+
+            const pageWidth = 210;
+            const pageHeight = 297;
+
+            const imgWidth = pageWidth;
+
+            const imgHeight =
+                (img.height * imgWidth) / img.width;
+
+            // FORCE SINGLE PAGE
+            const finalHeight =
+                imgHeight > pageHeight
+                    ? pageHeight
+                    : imgHeight;
+
+            pdf.addImage(
+                dataUrl,
+                "PNG",
+                0,
+                0,
+                imgWidth,
+                finalHeight
+            );
+
+            pdf.save(
+                `${data?.name || "resume"}.pdf`
+            );
+
+        } catch (error) {
+
+            console.error("PDF Error:", error);
+
+        }
+
+    };
+
     return (
-        <main className=" bg-gray-200 flex justify-center py-2 overflow-hidden">
 
-            {/* Resume Wrapper */}
-            <div className=" flex justify-center">
+        <main className="bg-gray-200 min-h-screen flex flex-col items-center p-2 overflow-x-auto">
 
-                {/* A4 Resume */}
+
+
+            {/* PREVIEW */}
+            <div className="w-full flex justify-center items-start">
+
                 <div
                     className="
-                               bg-white
-                                  w-[95vw]
-                             max-w-[950px]
-                                shadow-2xl
-                           overflow-hidden
-                           "
+                        origin-top
+                        scale-[0.42]
+                        sm:scale-[0.60]
+                        md:scale-[1]
+
+                        -mb-[520px]
+                        sm:-mb-[320px]
+                        md:mb-0
+                    "
                 >
 
-                    <div className="grid h-full grid-cols-[30%_70%]">
+                    <ResumeContent data={data} />
 
-                        {/* Sidebar */}
-                        <aside className="bg-slate-900 text-white p-[2vw]">
+                </div>
 
-                            {/* Profile Info */}
-                            <div className="border-b border-slate-700 pb-[1vw] text-center">
-                                <h1 className="text-[2vw] font-bold leading-tight">
-                                    Vishal Raj Singh
-                                </h1>
+            </div>
 
-                                <p className="mt-[0.5vw] text-[1vw] text-slate-300">
-                                    Frontend Developer
-                                </p>
-                            </div>
+            {/* HIDDEN PDF CONTENT */}
+            <div
+                style={{
+                    position: "absolute",
+                    top: "-9999px",
+                    left: "-9999px",
+                    width: "794px",
+                    zIndex: -1,
+                }}
+            >
 
-                            {/* Contact */}
-                            <div className="mt-[2vw]">
-                                <h2 className="text-[1.2vw] font-semibold border-b border-slate-700 pb-[0.5vw]">
-                                    Contact
-                                </h2>
+                <div ref={resumeRef}>
 
-                                <div className="mt-[1vw] space-y-[0.8vw] text-[0.95vw] text-slate-300">
-                                    <p>📧 vishal@gmail.com</p>
-                                    <p>📱 +91 9876543210</p>
-                                    <p>📍 Siliguri, India</p>
-                                    <p>🌐 github.com/vishal</p>
-                                </div>
-                            </div>
+                    <ResumeContent
+                        data={data}
+                        width={794}
+                    />
 
-                            {/* Skills */}
-                            <div className="mt-[2vw]">
-                                <h2 className="text-[1.2vw] font-semibold border-b border-slate-700 pb-[0.5vw]">
-                                    Skills
-                                </h2>
+                </div>
 
-                                <div className="mt-[1vw] flex flex-wrap gap-[0.5vw]">
+            </div>
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        Javascript
-                                    </span>
+            {/* DOWNLOAD BUTTON */}
+            <div className="fixed bottom-70 right-30 z-50 md:static md:mb-6 md:mt-7">
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        React
-                                    </span>
+                <button
+                    onClick={handleDownloadPDF}
+                    className="
+                        bg-green-600
+                        hover:bg-green-700
+                        text-white
+                        px-6
+                        py-3
+                        rounded-xl
+                        font-semibold
+                        shadow-lg
+                        transition
+                    "
+                >
+                    Download PDF
+                </button>
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        Next.js
-                                    </span>
+            </div>
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        TypeScript
-                                    </span>
+        </main>
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        Tailwind Css
-                                    </span>
+    );
+}
 
-                                    <span className="bg-slate-800 px-[0.8vw] py-[0.4vw] rounded-full text-[0.9vw]">
-                                        Postman
-                                    </span>
+function ResumeContent({
+    data,
+    width = 950,
+}) {
 
-                                </div>
-                            </div>
+    return (
 
-                            {/* Education */}
-                            <div className="mt-[2vw]">
-                                <h2 className="text-[1.2vw] font-semibold border-b border-slate-700 pb-[0.5vw]">
-                                    Education
-                                </h2>
+        <div
+            className="
+                bg-white
+                shadow-2xl
+                overflow-hidden
+                break-words
+            "
+            style={{
+                width: `${width}px`,
+                maxWidth: `${width}px`,
+            }}
+        >
 
-                                <div className="mt-[1vw] text-[0.95vw] text-slate-300 space-y-[1vw]">
+            <div className="grid grid-cols-[30%_70%]">
 
-                                    <div>
-                                        <h3 className="font-medium text-white text-[1vw]">
-                                            MCA
-                                        </h3>
+                {/* SIDEBAR */}
+                <aside className="bg-slate-900 text-white p-8">
 
-                                        <p>IGNOU University</p>
-                                        <p>2025 - 2027</p>
-                                    </div>
+                    {/* PROFILE */}
+                    <div className="border-b border-slate-700 pb-4 text-center">
 
-                                    <div>
-                                        <h3 className="font-medium text-white text-[1vw]">
-                                            BCA
-                                        </h3>
+                        <h1 className="text-3xl font-bold leading-tight">
+                            {data?.name || "Your Name"}
+                        </h1>
 
-                                        <p>XYZ College</p>
-                                        <p>2022 - 2025</p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </aside>
-
-                        {/* Main Content */}
-                        <section className="p-[2.5vw]">
-
-                            {/* Summary */}
-                            <div>
-                                <h2 className="text-[1.8vw] font-bold text-slate-900 border-b-[0.15vw] border-slate-200 pb-[0.5vw]">
-                                    Professional Summary
-                                </h2>
-
-                                <p className="mt-[1vw] text-gray-700 leading-relaxed text-[1vw]">
-                                    Passionate Frontend Developer with experience building
-                                    responsive and user-friendly web applications using React,
-                                    Next.js, and Tailwind CSS. Strong understanding of modern
-                                    UI/UX principles and performance optimization.
-                                </p>
-                            </div>
-
-                            {/* Experience */}
-                            <div className="mt-[2.5vw]">
-                                <h2 className="text-[1.8vw] font-bold text-slate-900 border-b-[0.15vw] border-slate-200 pb-[0.5vw]">
-                                    Experience
-                                </h2>
-
-                                <div className="mt-[1.5vw]">
-
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="text-[1.2vw] font-semibold text-slate-800">
-                                                Frontend Developer Intern
-                                            </h3>
-
-                                            <span className="text-[0.9vw] text-gray-500">
-                                                2025 - Present
-                                            </span>
-                                        </div>
-
-                                        <p className="text-[0.95vw] text-blue-600 mt-[0.4vw]">
-                                            ABC Tech Company
-                                        </p>
-
-                                        <ul className="mt-[1vw] list-disc list-inside text-gray-700 text-[0.95vw] space-y-[0.5vw]">
-                                            <li>
-                                                Developed responsive web interfaces using React and Tailwind CSS.
-                                            </li>
-
-                                            <li>
-                                                Improved UI performance and optimized page loading speed.
-                                            </li>
-
-                                            <li>
-                                                Collaborated with backend developers to integrate APIs.
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            {/* Projects */}
-                            <div className="mt-[2.5vw]">
-                                <h2 className="text-[1.8vw] font-bold text-slate-900 border-b-[0.15vw] border-slate-200 pb-[0.5vw]">
-                                    Projects
-                                </h2>
-
-                                <div className="mt-[1.5vw] space-y-[1.5vw]">
-
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="text-[1.2vw] font-semibold text-slate-800">
-                                                AI Resume Builder
-                                            </h3>
-
-                                            <span className="text-[0.9vw] text-gray-500">
-                                                2026
-                                            </span>
-                                        </div>
-
-                                        <p className="mt-[0.5vw] text-gray-700 leading-relaxed text-[0.95vw]">
-                                            Built an AI-powered resume builder where users can create,
-                                            preview, and download ATS-friendly resumes using multiple
-                                            modern templates.
-                                        </p>
-
-                                        <div className="mt-[0.7vw] flex gap-[1vw]">
-
-                                            <a
-                                                href="https://your-live-demo.com"
-                                                target="_blank"
-                                                className="text-blue-600 underline text-[0.9vw]"
-                                            >
-                                                Live
-                                            </a>
-
-                                            <a
-                                                href="https://github.com/yourusername/project"
-                                                target="_blank"
-                                                className="text-blue-600 underline text-[0.9vw]"
-                                            >
-                                                GitHub
-                                            </a>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="text-[1.2vw] font-semibold text-slate-800">
-                                                Portfolio Website
-                                            </h3>
-
-                                            <span className="text-[0.9vw] text-gray-500">
-                                                2025
-                                            </span>
-                                        </div>
-
-                                        <p className="mt-[0.5vw] text-gray-700 leading-relaxed text-[0.95vw]">
-                                            Created a fully responsive developer portfolio using
-                                            Next.js and Tailwind CSS with smooth animations and
-                                            modern UI.
-                                        </p>
-                                        <div className="mt-[0.7vw] flex gap-[1vw]">
-
-                                            <a
-                                                href="https://your-live-demo.com"
-                                                target="_blank"
-                                                className="text-blue-600 underline text-[0.9vw]"
-                                            >
-                                                Live
-                                            </a>
-
-                                            <a
-                                                href="https://github.com/yourusername/project"
-                                                target="_blank"
-                                                className="text-blue-600 underline text-[0.9vw]"
-                                            >
-                                                GitHub
-                                            </a>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </section>
+                        <p className="mt-2 text-base text-slate-300">
+                            {data?.role || "Your Role"}
+                        </p>
 
                     </div>
-                </div>
+
+                    {/* CONTACT */}
+                    <div className="mt-8">
+
+                        <h2 className="text-lg font-semibold border-b border-slate-700 pb-2">
+                            Contact
+                        </h2>
+
+                        <div className="mt-4 space-y-3 text-sm text-slate-300">
+
+                            <p>
+                                📧 {data?.email || "example@gmail.com"}
+                            </p>
+
+                            <p>
+                                📱 {data?.phone || "+91 9876543210"}
+                            </p>
+
+                            <p>
+                                📍 {data?.location || "India"}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {/* SKILLS */}
+                    <div className="mt-8">
+
+                        <h2 className="text-lg font-semibold border-b border-slate-700 pb-2">
+                            Skills
+                        </h2>
+
+                        <div className="mt-4 flex flex-wrap gap-2">
+
+                            {data?.skills?.map((skill, index) => (
+
+                                <span
+                                    key={index}
+                                    className="
+                                        bg-slate-800
+                                        px-3
+                                        py-1
+                                        rounded-full
+                                        text-sm
+                                    "
+                                >
+                                    {skill}
+                                </span>
+
+                            ))}
+
+                        </div>
+
+                    </div>
+
+                    {/* EDUCATION */}
+                    <div className="mt-8">
+
+                        <h2 className="text-lg font-semibold border-b border-slate-700 pb-2">
+                            Education
+                        </h2>
+
+                        <div className="mt-4 text-sm text-slate-300">
+
+                            <h3 className="font-medium text-white text-base">
+                                {data?.education?.degree || "Degree"}
+                            </h3>
+
+                            <p className="mt-1">
+                                {data?.education?.college || "College"}
+                            </p>
+
+                            <p className="mt-1">
+                                {data?.education?.year || "2025"}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+                {/* MAIN CONTENT */}
+                <section className="p-10">
+
+                    {/* SUMMARY */}
+                    <div>
+
+                        <h2 className="text-2xl font-bold text-slate-900 border-b-2 border-slate-200 pb-2">
+                            Professional Summary
+                        </h2>
+
+                        <p className="mt-4 text-gray-700 leading-relaxed text-base">
+
+                            {data?.summary ||
+                                "Write your professional summary here."}
+
+                        </p>
+
+                    </div>
+
+                    {/* EXPERIENCE */}
+                    <div className="mt-10">
+
+                        <h2 className="text-2xl font-bold text-slate-900 border-b-2 border-slate-200 pb-2">
+                            Experience
+                        </h2>
+
+                        <div className="mt-6">
+
+                            <div className="flex items-center justify-between">
+
+                                <h3 className="text-lg font-semibold text-slate-800">
+
+                                    {data?.experience?.role ||
+                                        "Job Role"}
+
+                                </h3>
+
+                                <span className="text-sm text-gray-500">
+
+                                    {data?.experience?.duration ||
+                                        "Duration"}
+
+                                </span>
+
+                            </div>
+
+                            <p className="text-sm text-blue-600 mt-2">
+
+                                {data?.experience?.company ||
+                                    "Company Name"}
+
+                            </p>
+
+                            <p className="mt-4 text-gray-700 text-base leading-relaxed">
+
+                                {data?.experience?.description ||
+                                    "Work description"}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {/* PROJECTS */}
+                    <div className="mt-10">
+
+                        <h2 className="text-2xl font-bold text-slate-900 border-b-2 border-slate-200 pb-2">
+                            Projects
+                        </h2>
+
+                        <div className="mt-6 space-y-6">
+
+                            {data?.projects?.map((project, index) => (
+
+                                <div key={index}>
+
+                                    <h3 className="text-lg font-semibold text-slate-800">
+                                        {project?.title || "Project Title"}
+                                    </h3>
+
+                                    <p className="mt-2 text-gray-700 leading-relaxed text-base">
+                                        {project?.description || "Project Description"}
+                                    </p>
+
+                                    {/* LINKS */}
+                                    <div className="mt-3 flex flex-wrap gap-4 text-sm">
+
+                                        {project?.liveLink && (
+                                            <a
+                                                href={project.liveLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-blue-600 font-medium underline break-all"
+                                            >
+                                                Live Demo
+                                            </a>
+                                        )}
+
+                                        {project?.github && (
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-slate-700 font-medium underline break-all"
+                                            >
+                                                GitHub
+                                            </a>
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+                            ))}
+
+                        </div>
+
+                    </div>
+
+                </section>
+
             </div>
-        </main>
+
+        </div>
+
     );
 }

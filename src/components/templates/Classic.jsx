@@ -33,28 +33,29 @@ export default function Classic({ isSelected, onSelect }) {
 
       {/* Resume Preview */}
       <div className="relative bg-gradient-to-br from-white via-gray-50 to-gray-100 p-3 sm:p-4 md:p-5">
-        <div className="mx-auto h-[240px] sm:h-[280px] md:h-[320px] overflow-hidden rounded-lg sm:rounded-xl border border-gray-200 bg-white shadow-md">
-          
+        
+        <div className="mx-auto h-60 sm:h-[280px] md:h-80 overflow-hidden rounded-lg sm:rounded-xl border border-gray-200 bg-white shadow-md">
+
           {/* Resume Layout */}
           <div className="flex h-full w-full overflow-hidden">
 
             {/* Sidebar */}
-            <div className="w-[32%] sm:w-[30%] shrink-0 bg-gray-900 p-2 sm:p-3 md:p-4 text-white overflow-hidden">
+            <div className="w-[32%] sm:w-[30%] shrink-0 overflow-hidden bg-gray-900 p-2 text-white sm:p-3 md:p-4">
 
               {/* Profile */}
-              <div className="mb-3 sm:mb-4 h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full bg-gray-700" />
+              <div className="mb-3 h-8 w-8 rounded-full bg-gray-700 sm:mb-4 sm:h-10 sm:w-10 md:h-12 md:w-12" />
 
               {/* Name Blocks */}
               <div className="space-y-1 sm:space-y-2">
-                <div className="h-1.5 sm:h-2 w-10 sm:w-14 md:w-16 rounded bg-gray-500" />
-                <div className="h-1.5 sm:h-2 w-12 sm:w-16 md:w-20 rounded bg-gray-700" />
+                <div className="h-1.5 w-10 rounded bg-gray-500 sm:h-2 sm:w-14 md:w-16" />
+                <div className="h-1.5 w-12 rounded bg-gray-700 sm:h-2 sm:w-16 md:w-20" />
               </div>
 
               {/* Sidebar Sections */}
-              <div className="mt-4 sm:mt-6 space-y-3 sm:space-y-4">
+              <div className="mt-4 space-y-3 sm:mt-6 sm:space-y-4">
 
                 <div>
-                  <div className="mb-2 h-1.5 sm:h-2 w-10 sm:w-12 md:w-14 rounded bg-violet-400" />
+                  <div className="mb-2 h-1.5 w-10 rounded bg-violet-400 sm:h-2 sm:w-12 md:w-14" />
 
                   <div className="space-y-1">
                     <div className="h-1 rounded bg-gray-600" />
@@ -64,13 +65,14 @@ export default function Classic({ isSelected, onSelect }) {
                 </div>
 
                 <div>
-                  <div className="mb-2 h-1.5 sm:h-2 w-10 sm:w-12 md:w-14 rounded bg-violet-400" />
+                  <div className="mb-2 h-1.5 w-10 rounded bg-violet-400 sm:h-2 sm:w-12 md:w-14" />
 
                   <div className="space-y-1">
                     <div className="h-1 rounded bg-gray-600" />
                     <div className="h-1 w-4/6 rounded bg-gray-700" />
                   </div>
                 </div>
+
               </div>
             </div>
 
@@ -79,64 +81,77 @@ export default function Classic({ isSelected, onSelect }) {
 
               {/* Header */}
               <div className="overflow-hidden border-b border-gray-200 pb-2 sm:pb-3">
-                <h2 className="truncate text-[11px] sm:text-sm md:text-lg font-bold text-gray-800">
+
+                <h2 className="truncate text-[11px] font-bold text-gray-800 sm:text-sm md:text-lg">
                   John Doe
                 </h2>
 
-                <p className="truncate text-[8px] sm:text-[10px] md:text-xs text-gray-500">
+                <p className="truncate text-[8px] text-gray-500 sm:text-[10px] md:text-xs">
                   Senior Software Engineer
                 </p>
+
               </div>
 
               {/* Sections */}
-              <div className="mt-3 sm:mt-4 space-y-3 sm:space-y-4 overflow-hidden">
+              <div className="mt-3 space-y-3 overflow-hidden sm:mt-4 sm:space-y-4">
 
                 {/* Experience */}
                 <div className="overflow-hidden">
-                  <div className="mb-2 h-1.5 sm:h-2 w-[55%] rounded bg-violet-500" />
 
-                  <div className="space-y-1 sm:space-y-2 overflow-hidden">
-                    <div className="h-1.5 sm:h-2 w-full rounded bg-gray-200" />
-                    <div className="h-1.5 sm:h-2 w-[90%] rounded bg-gray-100" />
-                    <div className="h-1.5 sm:h-2 w-[75%] rounded bg-gray-100" />
+                  <div className="mb-2 h-1.5 w-[55%] rounded bg-violet-500 sm:h-2" />
+
+                  <div className="space-y-1 overflow-hidden sm:space-y-2">
+                    <div className="h-1.5 w-full rounded bg-gray-200 sm:h-2" />
+                    <div className="h-1.5 w-[90%] rounded bg-gray-100 sm:h-2" />
+                    <div className="h-1.5 w-[75%] rounded bg-gray-100 sm:h-2" />
                   </div>
+
                 </div>
 
                 {/* Education */}
                 <div className="overflow-hidden">
-                  <div className="mb-2 h-1.5 sm:h-2 w-[45%] rounded bg-violet-500" />
 
-                  <div className="space-y-1 sm:space-y-2 overflow-hidden">
-                    <div className="h-1.5 sm:h-2 w-full rounded bg-gray-200" />
-                    <div className="h-1.5 sm:h-2 w-[80%] rounded bg-gray-100" />
+                  <div className="mb-2 h-1.5 w-[45%] rounded bg-violet-500 sm:h-2" />
+
+                  <div className="space-y-1 overflow-hidden sm:space-y-2">
+                    <div className="h-1.5 w-full rounded bg-gray-200 sm:h-2" />
+                    <div className="h-1.5 w-[80%] rounded bg-gray-100 sm:h-2" />
                   </div>
+
                 </div>
 
                 {/* Skills */}
                 <div className="overflow-hidden">
-                  <div className="mb-2 h-1.5 sm:h-2 w-[35%] rounded bg-violet-500" />
 
-                  <div className="flex flex-wrap gap-1 sm:gap-2 overflow-hidden">
-                    <div className="h-3 sm:h-4 md:h-5 w-8 sm:w-12 md:w-14 rounded-full bg-violet-100" />
-                    <div className="h-3 sm:h-4 md:h-5 w-10 sm:w-14 md:w-16 rounded-full bg-blue-100" />
-                    <div className="h-3 sm:h-4 md:h-5 w-7 sm:w-10 md:w-12 rounded-full bg-gray-200" />
+                  <div className="mb-2 h-1.5 w-[35%] rounded bg-violet-500 sm:h-2" />
+
+                  <div className="flex flex-wrap gap-1 overflow-hidden sm:gap-2">
+                    <div className="h-3 w-8 rounded-full bg-violet-100 sm:h-4 sm:w-12 md:h-5 md:w-14" />
+                    <div className="h-3 w-10 rounded-full bg-blue-100 sm:h-4 sm:w-14 md:h-5 md:w-16" />
+                    <div className="h-3 w-7 rounded-full bg-gray-200 sm:h-4 sm:w-10 md:h-5 md:w-12" />
                   </div>
+
                 </div>
+
               </div>
             </div>
           </div>
         </div>
 
         {/* Hover Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100">
-          <button className="rounded-lg sm:rounded-xl bg-white px-3 sm:px-5 py-2 text-[10px] sm:text-sm font-semibold text-gray-900 shadow-xl transition hover:scale-105">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100">
+
+          <button className="rounded-lg bg-white px-3 py-2 text-[10px] font-semibold text-gray-900 shadow-xl transition hover:scale-105 sm:rounded-xl sm:px-5 sm:text-sm">
             Use Classic Template
           </button>
+
         </div>
 
         {/* Shine Effect */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 transition duration-700 group-hover:opacity-100">
-          <div className="absolute left-[-60%] top-0 h-full w-[50%] rotate-12 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_1.4s_linear]" />
+
+          <div className="absolute left-[-60%] top-0 h-full w-[50%] rotate-12 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[shine_1.4s_linear_infinite]" />
+
         </div>
       </div>
 
@@ -146,6 +161,7 @@ export default function Classic({ isSelected, onSelect }) {
           0% {
             transform: translateX(-120%) rotate(12deg);
           }
+
           100% {
             transform: translateX(320%) rotate(12deg);
           }

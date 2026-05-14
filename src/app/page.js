@@ -11,7 +11,8 @@ import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import Steps from "@/components/Steps";
 import TemplateSection from "@/components/TemplateSection";
-import ClassicPreview from "@/components/preview/ClassicPreview";
+
+
 
 
 export default function Home() {
@@ -19,7 +20,7 @@ export default function Home() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   return (
-    <div >
+    <div>
       <Navbar />
       <Hero />
       <Feature />
@@ -33,7 +34,6 @@ export default function Home() {
       />
       <Blog />
       <Footer />
-      <ClassicPreview />
     </div>
   );
 }
