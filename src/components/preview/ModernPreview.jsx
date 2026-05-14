@@ -1,7 +1,6 @@
 "use client";
 
-import jsPDF from "jspdf";
-import { toPng } from "html-to-image";
+
 import { useRef } from "react";
 
 export default function ModernPreview({ data = {} }) {
@@ -15,6 +14,9 @@ export default function ModernPreview({ data = {} }) {
         if (!input) return;
 
         try {
+
+            const { toPng } = await import("html-to-image");
+            const { default: jsPDF } = await import("jspdf");
 
             const dataUrl = await toPng(input, {
                 cacheBust: true,
