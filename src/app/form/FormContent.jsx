@@ -106,6 +106,11 @@ export default function FormPage() {
   // GENERATE RESUME
   const handleGenerate = () => {
 
+    if (!formData.name && !formData.email && !formData.phone && !formData.role) {
+      alert("Please fill out your details in the form before generating the resume!");
+      return;
+    }
+
     // SAVE FORM DATA
     localStorage.setItem(
       "resumeData",

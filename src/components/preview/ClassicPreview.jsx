@@ -10,6 +10,7 @@ export default function ClassicPreview({ data = {} }) {
     const handleDownloadPDF = async () => {
 
         const input = resumeRef.current;
+
         if (!input) return;
 
         try {
@@ -89,7 +90,7 @@ export default function ClassicPreview({ data = {} }) {
                 <div
                     className="
                         origin-top
-                        scale-[0.40]
+                        scale-[0.35]
                         sm:scale-[0.60]
                         md:scale-[1]
 
@@ -111,7 +112,7 @@ export default function ClassicPreview({ data = {} }) {
                     position: "absolute",
                     top: "-9999px",
                     left: "-9999px",
-                    width: "794px",
+                    width: "950px",
                     zIndex: -1,
                 }}
             >
@@ -120,7 +121,7 @@ export default function ClassicPreview({ data = {} }) {
 
                     <ResumeContent
                         data={data}
-                        width={794}
+                        width={950}
                     />
 
                 </div>
@@ -128,7 +129,7 @@ export default function ClassicPreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-4 right-40 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:static md:translate-x-0 md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}

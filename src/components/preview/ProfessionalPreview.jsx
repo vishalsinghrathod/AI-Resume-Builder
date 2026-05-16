@@ -63,7 +63,7 @@ export default function ProfessionalPreview({ data = {} }) {
             heightLeft -= pageHeight;
 
             // EXTRA PAGES
-            while (heightLeft > 1) {
+            while (heightLeft > 15) {
 
                 position = heightLeft - imgHeight;
 
@@ -147,7 +147,7 @@ export default function ProfessionalPreview({ data = {} }) {
                     className="
                         origin-top
 
-                        scale-[0.42]
+                        scale-[0.35]
                         sm:scale-[0.60]
                         md:scale-[0.80]
                         lg:scale-[1]
@@ -171,7 +171,7 @@ export default function ProfessionalPreview({ data = {} }) {
                     position: "absolute",
                     top: "-9999px",
                     left: "-9999px",
-                    width: "794px",
+                    width: "950px",
                     zIndex: -1,
                 }}
             >
@@ -180,7 +180,7 @@ export default function ProfessionalPreview({ data = {} }) {
 
                     <ResumeContent
                         data={data}
-                        width={794}
+                        width={950}
                     />
 
                 </div>
@@ -188,7 +188,7 @@ export default function ProfessionalPreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-4 right-30 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:static md:translate-x-0 md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}

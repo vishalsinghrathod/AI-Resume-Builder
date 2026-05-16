@@ -63,7 +63,7 @@ export default function CreativePreview({ data = {} }) {
             heightLeft -= pageHeight;
 
             // EXTRA PAGES
-            while (heightLeft > 1) {
+            while (heightLeft > 15) {
 
                 position = heightLeft - imgHeight;
 
@@ -149,7 +149,7 @@ export default function CreativePreview({ data = {} }) {
                 <div
                     className="
                         origin-top
-                        scale-[0.32]
+                        scale-[0.28]
                         sm:scale-[0.48]
                         md:scale-[0.70]
                         lg:scale-[0.85]
@@ -175,7 +175,7 @@ export default function CreativePreview({ data = {} }) {
                     position: "absolute",
                     top: "-9999px",
                     left: "-9999px",
-                    width: "794px",
+                    width: "1200px",
                     zIndex: -1,
                 }}
             >
@@ -184,7 +184,7 @@ export default function CreativePreview({ data = {} }) {
 
                     <ResumeContent
                         data={data}
-                        width={794}
+                        width={1200}
                     />
 
                 </div>
@@ -192,7 +192,7 @@ export default function CreativePreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-4 right-40 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:static md:translate-x-0 md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}

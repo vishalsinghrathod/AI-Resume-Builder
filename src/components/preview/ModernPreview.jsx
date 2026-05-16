@@ -63,7 +63,7 @@ export default function ModernPreview({ data = {} }) {
             heightLeft -= pageHeight;
 
             // EXTRA PAGES
-            while (heightLeft > 1) {
+            while (heightLeft > 15) {
 
                 position = heightLeft - imgHeight;
 
@@ -84,7 +84,7 @@ export default function ModernPreview({ data = {} }) {
             // MAGIC TRICK: Find all links and overlay clickable zones in the PDF!
             const links = input.querySelectorAll("a");
             const containerRect = input.getBoundingClientRect();
-            
+
             // Scale factor: PDF width in mm (210) / DOM width in px
             const scale = pageWidth / containerRect.width;
 
@@ -92,7 +92,7 @@ export default function ModernPreview({ data = {} }) {
 
             links.forEach((link) => {
                 const rect = link.getBoundingClientRect();
-                
+
                 // Calculate position relative to the container
                 const x = rect.left - containerRect.left;
                 const y = rect.top - containerRect.top;
@@ -146,7 +146,7 @@ export default function ModernPreview({ data = {} }) {
                 <div
                     className="
                         origin-top
-                        scale-[0.42]
+                        scale-[0.35]
                         sm:scale-[0.60]
                         md:scale-[1]
 
@@ -170,7 +170,7 @@ export default function ModernPreview({ data = {} }) {
                     position: "absolute",
                     top: "-9999px",
                     left: "-9999px",
-                    width: "794px",
+                    width: "950px",
                     zIndex: -1,
                 }}
             >
@@ -179,7 +179,7 @@ export default function ModernPreview({ data = {} }) {
 
                     <ResumeContent
                         data={data}
-                        width={794}
+                        width={950}
                     />
 
                 </div>
@@ -187,7 +187,7 @@ export default function ModernPreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-4 right-30 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 md:static md:translate-x-0 md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}
