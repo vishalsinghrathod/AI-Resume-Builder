@@ -77,6 +77,7 @@ export default function Blog() {
                                     src={item.image}
                                     alt={item.name}
                                     fill
+                                    sizes="56px"
                                     className="object-cover"
                                 />
                             </div>

@@ -81,6 +81,41 @@ export default function CreativePreview({ data = {} }) {
                 heightLeft -= pageHeight;
             }
 
+            // MAGIC TRICK: Find all links and overlay clickable zones in the PDF!
+            const links = input.querySelectorAll("a");
+            const containerRect = input.getBoundingClientRect();
+            
+            // Scale factor: PDF width in mm (210) / DOM width in px
+            const scale = pageWidth / containerRect.width;
+
+            const totalPages = pdf.internal.getNumberOfPages();
+
+            links.forEach((link) => {
+                const rect = link.getBoundingClientRect();
+                
+                // Calculate position relative to the container
+                const x = rect.left - containerRect.left;
+                const y = rect.top - containerRect.top;
+                const w = rect.width;
+                const h = rect.height;
+
+                const pdfX = x * scale;
+                const pdfY = y * scale;
+                const pdfW = w * scale;
+                const pdfH = h * scale;
+
+                // Determine which page the link is on
+                const pageNumber = Math.floor(pdfY / pageHeight) + 1;
+                const yOnPage = pdfY % pageHeight;
+
+                if (pageNumber <= totalPages) {
+                    pdf.setPage(pageNumber);
+                    pdf.link(pdfX, yOnPage, pdfW, pdfH, {
+                        url: link.href,
+                    });
+                }
+            });
+
             pdf.save(`${data?.name || "resume"}.pdf`);
 
         } catch (error) {
@@ -157,7 +192,7 @@ export default function CreativePreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-4 right-30 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 right-40 z-50 md:static md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}

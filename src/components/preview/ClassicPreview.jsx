@@ -10,7 +10,6 @@ export default function ClassicPreview({ data = {} }) {
     const handleDownloadPDF = async () => {
 
         const input = resumeRef.current;
-
         if (!input) return;
 
         try {
@@ -18,6 +17,7 @@ export default function ClassicPreview({ data = {} }) {
             const { toPng } = await import("html-to-image");
             const { default: jsPDF } = await import("jspdf");
 
+            // Capture HTML to Image
             const dataUrl = await toPng(input, {
                 cacheBust: true,
                 pixelRatio: 2,
@@ -25,13 +25,12 @@ export default function ClassicPreview({ data = {} }) {
             });
 
             const img = new Image();
-
             img.src = dataUrl;
-
             await new Promise((resolve) => {
                 img.onload = resolve;
             });
 
+            // Create PDF
             const pdf = new jsPDF({
                 orientation: "portrait",
                 unit: "mm",
@@ -40,35 +39,41 @@ export default function ClassicPreview({ data = {} }) {
 
             const pageWidth = 210;
             const pageHeight = 297;
-
             const imgWidth = pageWidth;
+            const imgHeight = (img.height * imgWidth) / img.width;
 
-            const imgHeight =
-                (img.height * imgWidth) / img.width;
+            // Force single page height
+            const finalHeight = imgHeight > pageHeight ? pageHeight : imgHeight;
 
-            // FORCE SINGLE PAGE
-            const finalHeight =
-                imgHeight > pageHeight
-                    ? pageHeight
-                    : imgHeight;
+            // Add Image to PDF
+            pdf.addImage(dataUrl, "PNG", 0, 0, imgWidth, finalHeight);
 
-            pdf.addImage(
-                dataUrl,
-                "PNG",
-                0,
-                0,
-                imgWidth,
-                finalHeight
-            );
+            // MAGIC TRICK: Find all links and overlay clickable zones in the PDF!
+            const links = input.querySelectorAll("a");
+            const containerRect = input.getBoundingClientRect();
+            
+            // Scale factor: PDF width in mm (210) / DOM width in px
+            const scale = pageWidth / containerRect.width;
 
-            pdf.save(
-                `${data?.name || "resume"}.pdf`
-            );
+            links.forEach((link) => {
+                const rect = link.getBoundingClientRect();
+                
+                // Calculate position relative to the container
+                const x = rect.left - containerRect.left;
+                const y = rect.top - containerRect.top;
+                const w = rect.width;
+                const h = rect.height;
+
+                // Add transparent clickable link to PDF
+                pdf.link(x * scale, y * scale, w * scale, h * scale, {
+                    url: link.href,
+                });
+            });
+
+            pdf.save(`${data?.name || "resume"}.pdf`);
 
         } catch (error) {
-
             console.error("PDF Error:", error);
-
         }
 
     };
@@ -78,14 +83,13 @@ export default function ClassicPreview({ data = {} }) {
         <main className="bg-gray-200 min-h-screen flex flex-col items-center p-2 overflow-x-auto">
 
 
-
             {/* PREVIEW */}
             <div className="w-full flex justify-center items-start">
 
                 <div
                     className="
                         origin-top
-                        scale-[0.42]
+                        scale-[0.40]
                         sm:scale-[0.60]
                         md:scale-[1]
 
@@ -124,7 +128,7 @@ export default function ClassicPreview({ data = {} }) {
             </div>
 
             {/* DOWNLOAD BUTTON */}
-            <div className="fixed bottom-70 right-30 z-50 md:static md:mb-6 md:mt-7">
+            <div className="fixed bottom-4 right-40 z-50 md:static md:mb-6 md:mt-7">
 
                 <button
                     onClick={handleDownloadPDF}
